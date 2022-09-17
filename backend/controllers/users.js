@@ -1,10 +1,16 @@
 const router = require('express').Router()
 const db = require("../models")
+const bcrypt = require('bcrypt')
 
 const { User } = db
 
 router.post('/', async (req, res) => {
-    const user = await User.create(req.body)
+    const{password,...rest} = req.body;
+    const user = await User.create({
+        ...rest, 
+        passwordDigest: await bcrypt.hash(password, 10)
+    })
+    console.log(`created user ${user.UserId} your highness`)
     res.json(user)
 })
 
