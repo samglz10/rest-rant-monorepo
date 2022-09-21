@@ -19,7 +19,6 @@ function LoginForm() {
         e.preventDefault()
         const response = await fetch(`http://localhost:5000/authentication/`, {
             method: 'POST',
-            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -27,6 +26,8 @@ function LoginForm() {
         });
 
         const data = await response.json()
+        console.log(`Session token is ${data.token} `)
+        localStorage.setItem('token', data.token);
         if (response.status === 200) {
             setCurrentUser(data.user)
             history.push(`/`)
