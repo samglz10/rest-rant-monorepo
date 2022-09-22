@@ -7,7 +7,8 @@ const { User } = db
 router.post('/', async (req, res) => {
     const{password,...rest} = req.body;
     const user = await User.create({
-        ...rest, 
+        ...rest,
+        role: 'reviewer',
         passwordDigest: await bcrypt.hash(password, 10)
     })
     console.log(`created user ${user.UserId} your highness`)

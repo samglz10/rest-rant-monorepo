@@ -5,6 +5,9 @@ const jwt = require('json-web-token')
 const { Place, Comment, User } = db
 
 router.post('/', async (req, res) => {
+    if (req.currentUser?.role !== 'admin') {
+        return res.status(403).json('You are not allowed to add a Place')
+    }
     if (!req.body.pic) {
         req.body.pic = 'http://placekitten.com/400/400'
     }
@@ -46,6 +49,9 @@ router.get('/:placeId', async (req, res) => {
 })
 
 router.put('/:placeId', async (req, res) => {
+    if (req.currentUser?.role !== 'admin') {
+        return res.status(403).json('You are not allowed to add a Place')
+    }
     let placeId = Number(req.params.placeId)
     if (isNaN(placeId)) {
         res.status(404).json({ message: `Invalid id "${placeId}"` })
@@ -64,6 +70,9 @@ router.put('/:placeId', async (req, res) => {
 })
 
 router.delete('/:placeId', async (req, res) => {
+    if (req.currentUser?.role !== 'admin') {
+        return res.status(403).json('You are not allowed to add a Place')
+    }
     let placeId = Number(req.params.placeId)
     if (isNaN(placeId)) {
         res.status(404).json({ message: `Invalid id "${placeId}"` })
@@ -83,8 +92,10 @@ router.delete('/:placeId', async (req, res) => {
 })
 
 router.post('/:placeId/comments', async (req, res) => {
+    if (req.currentUser?.role !== 'admin') {
+        return res.status(403).json('You are not allowed to add a Place')
+    }
     const placeId = Number(req.params.placeId)
-
     req.body.rant = req.body.rant ? true : false
 
     const place = await Place.findOne({
@@ -110,6 +121,9 @@ router.post('/:placeId/comments', async (req, res) => {
 })
 
 router.delete('/:placeId/comments/:commentId', async (req, res) => {
+    if (req.currentUser?.role !== 'admin') {
+        return res.status(403).json('You are not allowed to delete a Place')
+    }
     let placeId = Number(req.params.placeId)
     let commentId = Number(req.params.commentId)
 
