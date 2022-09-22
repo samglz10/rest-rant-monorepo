@@ -25,22 +25,7 @@ router.post('/', async (req,res) => {
 
 router.get('/profile', async (req, res) => {
     //console.log(`Session userId: ${req.session.userId}`)
-    try{
-        const [authenticationMethod,token] =req.headers.authorization.split(' ')
-        if (authenticationMethod === 'Beare') {
-            const result = await jwt.decode(process.env.JWT_SECRET, token);
-            const { id } = result.value;
-            let user = await User.findOne({
-                where:{
-                    userId: id
-                }
-            });
-            res.json(user);
-        }
-
-    } catch {
-        res.json(null);
-    }
+  res.json(req.currentUser)
 });
 
 module.exports = router;

@@ -5,6 +5,8 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const app = express();
 const cookieSession = require('cookie-session')
+const jwt = require('json-web-token')
+const defineCurrentUser = require('./middleware/defineCurrentUser')
 
 // Listen for Connections
   
@@ -22,6 +24,7 @@ app.use(cors({
 app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
 app.use(bodyParser.json())
+app.use(defineCurrentUser);
 
 
 // Controllers & Routes
